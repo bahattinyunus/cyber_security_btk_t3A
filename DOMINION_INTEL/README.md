@@ -67,3 +67,60 @@ Hızlı alan adı istihbaratı toplamak için komut satırı aracımız:
 python3 TOOLS/sentinel_whois.py <DOMAIN_ADI>
 ```
 *IANA sunucularından ham WHOIS verisini çeker.*
+
+---
+
+## 📒 Intel Operasyon Veritabanı (OSINTDB)
+
+### 🔍 Google Hacking Database (Dorks)
+Arama motorlarını bir silah gibi kullanın. Bilgi toplamak için özel operatörler.
+
+| Dork | Amaç | Örnek |
+| :--- | :--- | :--- |
+| `site:` | Belirli bir siteyi tara | `site:hedef.com filetype:pdf` |
+| `filetype:` | Dosya türü ara | `filetype:xls "password" -site:github.com` |
+| `inurl:` | URL içinde ara | `inurl:admin/login.php` |
+| `intitle:` | Sayfa başlığında ara | `intitle:"index of /" parent directory` |
+| `ext:` | Uzantı ara | `ext:sql "INSERT INTO" "VALUES"` |
+
+### 🛠️ Çevrimiçi Araç Çantası
+Yerel iz bırakmadan bilgi toplamak için.
+
+- **Altyapı Analizi**:
+    - [Robtex](https://www.robtex.com/): DNS ve Grafik analiz.
+    - [SecurityTrails](https://securitytrails.com/): Geçmiş DNS kayıtları.
+    - [Censys](https://censys.io/): İnternet cihaz arama motoru.
+- **Tehdit İstihbaratı**:
+    - [VirusTotal](https://www.virustotal.com/): Hash/Domain/IP tarama.
+    - [Any.Run](https://app.any.run/): İnteraktif Malware Sandbox.
+- **Kişi/Kurum**:
+    - [Hunter.io](https://hunter.io/): Kurumsal e-posta formatı bulma.
+    - [HaveIBeenPwned](https://haveibeenpwned.com/): Sızıntı kontrolü.
+
+---
+
+## 🎭 Advanced OPSEC: Gölgelerde Yürümek
+
+Araştırmacı asla iz olmamalıdır. (Operational Security)
+
+### 🕵️ Sock Puppet (Sahte Kimlik) Oluşturma
+Soruşturma için inandırıcı bir "kukla" hesap yaratma sanatı.
+
+1.  **Fake Name Generator**: Gerçekçi isim, adres ve doğum tarihi üretin.
+2.  **AI Yüz Üretimi**: `thispersondoesnotexist.com` kullanın (Dikkat: Göz bebekleri ve kulaklar bazen hatalı olur, kontrol edin!).
+3.  **Burner Phone**: SMS doğrulamaları için geçici numara servisleri veya sanal numaralar kullanın.
+4.  **İzolasyon**:
+    *   ASLA kendi tarayıcınızı kullanmayın.
+    *   Her operasyon için temiz bir Sanal Makine (VM) açın.
+    *   VPN + Tor (Onion over VPN) zinciri kurun.
+
+### 🚫 Tarayıcı Parmak İzi (Fingerprinting)
+IP adresinizi gizleseniz bile, tarayıcınız sizi ele verebilir.
+*   **User-Agent**: Hangi işletim sistemi ve tarayıcıyı kullandığınızı söyler.
+*   **Canvas Fingerprinting**: Ekran kartınızın render alma şekli benzersiz olabilir.
+*   **Çözüm**: `Tor Browser` kullanın. Tüm kullanıcıları "aynı" gösterir (Windows boyutunda pencere, standart fontlar).
+
+### ⚠️ OPSEC İhlal Örnekleri (Neleri YAPMAMALISIN?)
+*   Kendi kişisel telefonunuzdan şüpheli Wi-Fi ağına bağlanmak.
+*   Sock Puppet hesabıyla, kendi gerçek LinkedIn profilinize bakmak ("Profilinizi görüntüleyenler" sizi ele verir).
+*   VPN kopsa bile trafiğin gitmesine izin vermek (**Kill Switch** kullanın!).
