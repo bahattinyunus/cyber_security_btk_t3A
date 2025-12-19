@@ -24,7 +24,30 @@ Mavi Takım, sistemleri çok katmanlı bir zırh gibi korur. Bir katman delinse 
 ### 3. Tehdit Avcılığı (Threat Hunting)
 *Beklemek yerine aramak.*
 - Alarm üretmeyen, sessiz saldırganları bulmak için hipotez tabanlı aramalar yapmak.
-- "Eğer saldırgan X zafiyetini kullansaydı, loglarda ne görürdüm?" sorusunu sormak.
+- **Pyramid of Pain**: Saldırganın yaşamını zorlaştırmak için Hash/IP gibi kolay değişen veriler yerine **TTPs** (Taktik ve Teknikler) üzerine odaklanmak.
+
+---
+
+## ⚙️ Detection Engineering: Akıllı Tespitler
+
+Mavi takım artık sadece alarm beklemez; kendi dedektörlerini yazar.
+
+### 1. Sigma Rules (Evrensel Tespit Formatı)
+Herhangi bir SIEM platformuna (ELK, Splunk, Azure Sentinel) dönüştürülebilen genel kural yazım formatı.
+- **Örnek**: PowerShell üzerinden Encoded komut çalıştırıldığında alarm ver.
+
+### 2. Pratik SIEM Sorgu Desenleri
+- **Splunk (Yanal Hareket Tespiti)**:
+  ```spl
+  index=windows EventCode=4624 Logon_Type=3 
+  | stats dc(dest_nt_domain) as domain_count by src_ip
+  | where domain_count > 5
+  ```
+- **KQL (Azure Sentinel - EDR Analizi)**:
+  ```kql
+  DeviceProcessEvents
+  | where FileName == "cmd.exe" and ProcessCommandLine contains "/c powershell"
+  ```
 
 ---
 
@@ -120,6 +143,120 @@ RAM imajı (`memdump.raw`) alındıktan sonra analiz adımları:
 | `vol.py -f mem.raw --profile=... netscan` | Aktif ağ bağlantılarını gösterir (XP/2003 için `connscan`). |
 | `vol.py -f mem.raw --profile=... malfind` | Code Injection yapılmış şüpheli bellek alanlarını bulur. |
 | `vol.py -f mem.raw --profile=... dumpfiles` | Bellekten şüpheli exe/dll dosyalarını diske çıkarır. |
+
+---
+
+## 🔎 Adli Bilişim Derinliği (Digital Forensics - DFIR)
+
+Siber bir olay gerçekleştikten sonra, saldırganın ayak izlerini bulma sanatı.
+
+### 1. Zaman Çizelgesi Analizi (Timeline Analysis)
+Sistemde neyin, ne zaman olduğunu kronolojik olarak sıralamak.
+- **$MFT Analysis**: Windows dosya sistemindeki her dosyanın oluşturulma, değiştirme ve erişim zamanları (MACB).
+  - *Araç*: `MFTECmd.exe` (Eric Zimmerman tools).
+- **Super Timeline**: Loglar, dosya sistemi ve registry verilerinin tek bir zaman çizelgesinde birleştirilmesi.
+  - *Araç*: `Plaso (log2timeline)`.
+
+### 2. Kritik Adli Kanıtlar (Artifacts)
+- **LNK Dosyaları**: Kullanıcının açtığı son dosyaların ve bu dosyaların o andaki konumlarının kaydı (USB takılması gibi durumlar için kritik).
+- **Prefetch (.pf)**: Uygulamaların en son ne zaman ve nereden çalıştırıldığını gösterir.
+- **Browser Forensics**: Geçmiş (History), çerezler (Cookies) ve indirme kayıtları üzerinden saldırganın indirdiği pusetleri (tools) tespit etme.
+  - *Konum*: `%AppData%\Local\Google\Chrome\User Data\Default\History`
+
+---
+
+## 🎭 Aktif Savunma: Deception Technology (Aldatma)
+
+Saldırganı sadece engellemeyin, onu sahte hedeflere yönlendirerek deşifre edin.
+
+### 1. Honeypots (Ballıklar)
+Saldırganın içeri girmesi için tasarlanmış "zafiyetli gibi görünen" sahte sistemler.
+- **Low-interaction**: Sadece belirli servisleri (örn: SSH) simüle eder.
+- **High-interaction**: Gerçek bir işletim sistemi gibi davranır, saldırganın her hareketini kaydeder.
+
+### 2. Honeytokens & Canary Tokens
+Görünürde değerli olan ama aslında birer "alarm" olan sahte veriler.
+- **Örnek**: Bir Excel dosyası açıldığında veya bir veritabanı tablosuna erişildiğinde sessizce SOC ekibine IP adresi ve konum bilgisi gönderir.
+- **Kullanım**: `Canarytokens.org` üzerinden hızlıca "tetikleyici" dosyalar üretilebilir.
+
+### 3. Tarpits (Zift Kuyuları)
+Saldırganın tarama veya brute-force araçlarını yavaşlatmak için ağ seviyesinde yanıt süresini yapay olarak uzatma tekniği.
+
+---
+
+## 🤖 Savunma Otomasyonu: eBPF & SOAR
+
+Geleceğin savunma hattı, kodun çalışma anında (runtime) ve otomatik müdahale ile kuruluyor.
+
+### 1. eBPF (Extended Berkeley Packet Filter)
+Linux çekirdeğini (kernel) değiştirmeden, çekirdek seviyesinde güvenli programlar çalıştırma teknolojisi.
+- **Kullanım**: Dosya erişimleri, ağ bağlantıları ve sistem çağrılarını mikro saniye seviyesinde izlemek.
+- **Araçlar**: `Tetragon`, `Falco`, `Hubble`.
+- **Avantaj**: Çok düşük CPU maliyeti ve atlatılamaz izleme.
+
+### 2. SOAR (Security Orchestration, Automation, and Response)
+Farklı güvenlik araçlarını bir orkestra şefi gibi yöneten platformlar.
+- **Playbooks**: "Eğer ekte zararlı tespit edilirse -> Bilgisayarı ağdan ayır -> Kullanıcıya mail at -> Ticket aç" sürecini saniyeler içinde otomatik yapar.
+- **Fayda**: Analistin yükünü azaltmak ve müdahale süresini (MTTR) minimize etmek.
+
+---
+
+## 🔎 İleri Tehdit Avcılığı (Threat Hunting)
+
+Sadece alarm beklemeyin, verinin içinde saldırganı bulun.
+
+### 1. KQL (Kusto Query Language) ile Avlanma
+Azure Sentinel ve Microsoft Defender üzerinde kullanılan güçlü sorgulama dili.
+- **Örnek: Lateral Movement Tespiti**
+  ```kql
+  SecurityEvent
+  | where EventID == 4624 // Başarılı Login
+  | where LogonType == 3  // Network Login
+  | summarize Count=count() by TargetAccount, IpAddress
+  | where Count > 50      // Kısa sürede çok sayıda farklı login
+  ```
+
+### 2. Bellek Adli Bilişimi Derin Dalış (Memory Deep Dive)
+Bellekteki ham veriden işletim sistemi yapılarını çekme.
+- **Pool Scanning**: Bellekte gizlenmiş (linked list'ten çıkarılmış) prosesleri bulmak için `volatility` ile bellek alanlarını tarama.
+- **VAD (Virtual Address Descriptor)**: Bir prosesin bellek haritasını çıkararak enjekte edilmiş kodları (örn: `rwx` yetkili alanlar) tespit etme.
+
+---
+
+## 🏹 Tespit Mühendisliği (Detection Engineering)
+
+Güvenlik duvarının yakalayamadığı saldırıları, özel mantıklar kurarak yakalayın.
+
+### 1. Sigma Kuralları: Ortak Tespit Dili
+Sigma, farklı SIEM platformları arasında taşınabilir tespit kuralları yazmayı sağlar.
+- **Mantık**: "Eğer `Image` alanı `powershell.exe` ise VE `ParentImage` alanı `winword.exe` ise -> Alarm üret."
+- **Condition**: Bir kuralın ne zaman tetikleneceğini belirleyen boolean mantığı.
+
+### 2. SOC Tuning & Alert Fatigue (Alarm Yorgunluğu)
+Binlerce anlamsız alarm arasından gerçeği bulma stratejisi.
+- **False Positive Reduction**: Sürekli tetiklenen ama zararsız olan (örn: IT ekibinin yedekleme scriptleri) işlemleri istisna (exclusion) listesine alma.
+- **Precision vs Recall**: Çok hassas olup her şeyi yakalamak mı (çok gürültü), yoksa sadece kesin saldırıları yakalamak mı (riskli)?
+
+### 3. Davranışsal Analiz (Anomali Tespiti)
+- **LOLBAS Monitor**: Meşru Windows araçlarının (`certutil`, `bitsadmin`) alışılmadık parametrelerle veya alışılmadık dizinlerden çalıştırılmasını izleme.
+
+---
+
+## ⚡ Olay Müdahale Otomasyonu (IR Playbooks)
+
+Bir saldırı anında saniyeler hayat kurtarır. Manuel müdahale yerine otomatikleştirilmiş senaryolar (Playbooks) kullanın.
+
+### 1. Playbook Tasarımı: Ransomware Müdahalesi
+Bir fidye yazılımı (Ransomware) tespiti durumunda otomatik aksiyonlar:
+- **İzolasyon**: Tespit edilen IP'nin ağ anahtarları üzerinden otomatik bloklanması.
+- **Snapshot**: Etkilenen makinenin disk yedeğinin dondurulması.
+- **User Lock**: İlgili kullanıcı hesabının tüm sistemlerde (AD, Cloud) askıya alınması.
+
+### 2. SOAR Orkestrasyonu (Detection-to-Response)
+Farklı araçların tek bir platform üzerinden yönetilerek, tespit anından müdahale anına kadar geçen sürenin (MTTR) minimize edilmesi.
+
+---
+
 
 ### 🧬 YARA Kural Yazımı
 Kendi malware avcısı imzanızı oluşturun.

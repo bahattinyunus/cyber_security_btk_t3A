@@ -57,7 +57,99 @@ john --wordlist=/usr/share/wordlists/rockyou.txt hashes.txt
 john --show hashes.txt
 ```
 
+## 🔬 İleri Kriptografi Uygulamaları
+
+### 1. Elliptic Curve Cryptography (ECC)
+Geleneksel RSA yerine kullanılan, çok daha küçük anahtar boyutlarıyla aynı güvenliği sağlayan teknoloji.
+- **Avantaj**: Daha az CPU gücü ve depolama alanı gerektirir (Örn: 256-bit ECC, 3072-bit RSA'ya eşittir).
+- **Kullanım**: Bitcoin, Ethereum, TLS 1.3 (ECDHE).
+
+### 2. Zero-Knowledge Proofs (ZKP - Sıfır Bilgi Kanıtı)
+"Bilginin kendisini paylaşmadan, o bilgiye sahip olduğunu kanıtlama" sanatı.
+- **Senaryo**: Bir web sitesine şifrenizi göndermeden, şifreyi bildiğinizi matematiksel olarak kanıtlarsınız.
+- **Kripto Para**: Zcash ve Monero gibi gizlilik odaklı coinlerin temelidir.
+
+### 3. Homomorphic Encryption
+Şifrelenmiş veri üzerinde, veriyi açmadan işlem yapabilme (Örn: Şifreli iki sayıyı toplayıp sonucu yine şifreli olarak almak). Bulut bilişimin geleceğidir.
+
 ---
+
+## ⛓️ Blockchain & Web3 Güvenliği
+
+Kriptografinin en popüler ve en riskli uygulama alanı.
+
+### 1. Akıllı Kontrat Zafiyetleri (Smart Contract Bugs)
+Kodun kanun olduğu bir dünyada, mantık hatası telafi edilemez.
+- **Reentrancy (Yeniden Giriş)**: Bir fonksiyonun işlemi bitmeden tekrar çağrılarak (recursive) bakiyenin boşaltılması.
+- **Oracle Manipulation**: Fiyat verisi sağlayan mekanizmaların manipüle edilerek DeFi borç verme protokollerinin dolandırılması.
+
+### 2. DeFi Saldırı Desenleri: Flash Loan Attacks
+Aynı blok içinde milyonlarca dolar borç alıp, bir protokoldeki fiyatı manipüle ederek kar elde edip borcu geri ödeme saldırıları.
+
+### 3. Blockchain Forensics (Blokzincir Adli Bilişimi)
+Kamuya açık defterler üzerinden fon takibi.
+- **Mixers**: İzleri gizlemek için kullanılan servisler (örn: Tornado Cash).
+- **Tracking**: `Chainalysis` benzeri metodlarla "şüpheli" cüzdanların borsalara girdiği anın tespiti.
+
+---
+
+## ⚛️ Kuantum Bilgi Güvenliği (Quantum Security)
+
+Kuantum bilgisayarların tehdidine karşı fizik kurallarıyla korunan yeni nesil kriptografi.
+
+### 1. Kuantum Anahtar Dağıtımı (QKD - BB84)
+İki tarafın, kuantum mekaniği kurallarını (Fotonların polarizasyonu) kullanarak, arada dinleme (eavesdropping) yapılıp yapılmadığını kesin olarak anlayabildiği anahtar değişimi.
+- **Dinamik**: Birisi fiziksel kanalı dinlemeye çalıştığında, fotonların kuantum durumu değişir ve bu durum taraflarca anında tespit edilir.
+
+### 2. PQC Uygulama ve Göç (Practical Migration)
+Kuantum sonrası algoritmaların (`Kyber`, `Dilithium`) mevcut sistemlere entegrasyonu.
+- **Hybrid Cryptography**: Eski ve yeni algoritmaların aynı anda kullanılması; böylece her iki dünyanın da güvenliğinden faydalanılması (Örn: `RSA` + `Kyber`).
+- **Geçiş Zorlukları**: İmza boyutlarının artması ve daha yüksek işlem gücü gereksinimi.
+
+---
+
+## 🏛️ Public Key Infrastructure (PKI)
+
+İnternetin güvenliği, "güven zinciri" üzerine kuruludur.
+
+1.  **CA (Certificate Authority)**: Kimliğinizi doğrulayan güvenilir kurum (örn: Let's Encrypt, DigiCert).
+2.  **Digital Certificate (X.509)**: "Bu sunucu gerçekten `google.com`dur" diyen imzalı dijital belge.
+3.  **Root Certificates**: Tarayıcınızda önceden yüklü olan, CA'lara güvenmenizi sağlayan ana sertifikalar.
+
+### SSL/TLS Handshake: Sırrı Paylaşma
+- İstemci merhaba der (`Client Hello`).
+- Sunucu sertifikasını gönderir.
+- İstemci sertifikayı doğrular ve bir "oturum anahtarı" (session key) oluşturmak için asimetrik şifrelemeyi (RSA/Diffie-Hellman) kullanır.
+- Görüşme artık simetrik şifreleme (AES) ile devam eder.
+
+---
+
+## 🔬 Gelecek: Post-Quantum Cryptography (PQC)
+
+Kuantum bilgisayarlar geldiğinde, mevcut RSA ve ECC algoritmaları dakikalar içinde kırılabilecek.
+- **Lattice-based Cryptography**: Kuantum saldırılarına dirençli matematiksel kafes yapıları.
+- **NIST Seçimleri**: CRYSTALS-Kyber (Şifreleme) ve CRYSTALS-Dilithium (İmza) yakın geleceğin standartlarıdır.
+
+---
+
+## ⚛️ Kuantum Ötesi Direnç (Quantum Resilience)
+
+Geleceği bugünden korumak için kuantum bilgisayarların kırma kapasitesine karşı geliştirilen stratejiler.
+
+### 1. Harvest Now, Decrypt Later (HNDL) Tehlikesi
+Saldırganların (genellikle devlet aktörleri), bugün kıramadıkları yüksek değerli şifreli verileri "hasat edip" (kaydedip), 10-15 yıl sonra kuantum bilgisayarlar geliştiğinde çözmek üzere saklaması.
+- **Savunma**: Verinin ömrü 10 yıldan fazlaysa, bugünden **PQC (Post-Quantum Cryptography)** ile şifrelenmelidir.
+
+### 2. CRYSTALS-Kyber & Dilithium Uygulanışı
+NIST tarafından seçilen ana algoritmaların teknik uygulama örüntüleri:
+- **Kyber (KEM)**: Güvenli anahtar kapsülleme mekanizması. Lattice-based (Kafes tabanlı) matematik kullanarak anahtar değişimini sağlar.
+- **Dilithium**: Dijital imzalar için kullanılır. Mevcut RSA/ECDSA imzalarına göre çok daha büyük imza boyutlarına sahiptir, bu da ağ protokollerinde (TLS gibi) paket boyutu ayarlamaları gerektirir.
+
+### 3. Kripto-Çeviklik (Crypto-Agility)
+Yazılım altyapısının, tek bir hard-coded algoritma yerine, algoritmaları çalışma anında güncelleyebilecek (agility) mimari ile tasarlanması.
+
+---
+
 
 ## 🖼️ Steganography (Veri Gizleme)
 

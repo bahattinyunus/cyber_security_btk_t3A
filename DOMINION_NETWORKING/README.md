@@ -52,6 +52,24 @@ Her port açılmayı bekleyen bir kapıdır.
 - **Wireshark**: Ağ trafiğini atomlarına ayırır. Her paketin içini gösterir.
 - **Tcpdump**: Komut satırı paket yakalama aracı. Hızlı ve ölümcül.
 - **Cisco Packet Tracer**: Ağ topolojilerini simüle etmek için laboratuvar.
+- **Ntopng**: Ağ trafiğinin görselleştirilmesi ve anomali tespiti.
+
+---
+
+## 🛡️ Altyapı Savunma Stratejileri
+
+### 1. Zero Trust Network Access (ZTNA)
+"Asla güvenme, her zaman doğrula."
+- Cihaz ve kullanıcı kimliği ağın içinden gelse bile doğrulanır.
+- Mikro-segmentasyon ile yanal hareket (lateral movement) kısıtlanır.
+
+### 2. BGP Hijacking & IPv6 Güvenliği
+- **BGP Hijacking**: İnternet trafiğinin sahte rotalarla saldırganın üzerine çekilmesi.
+- **IPv6 RA Guard**: IPv6 ağlarında sahte "Router Advertisement" paketlerini engelleme.
+
+---
+
+## 🧠 Paket Analiz Derinliği
 
 > **"Paketler yalan söylemez."**
 
@@ -106,6 +124,52 @@ GUI olmadan trafik analizi.
 | `tshark -i eth0 -w capture.pcap` | Trafiği dosyaya kaydet. |
 | `tshark -r capture.pcap -Y "http.request"` | Pcap dosyasını oku ve sadece HTTP isteklerini göster. |
 | `tshark -r capture.pcap -T fields -e ip.src -e dns.qry.name` | Sadece Kaynak IP ve DNS sorgularını sütun olarak dök. |
+
+---
+
+## 📞 Altyapı ve Modern İletişim Güvenliği
+
+Ağlar geliştikçe, sadece veri değil ses ve vizyon da ağın bir parçası haline geldi.
+
+### 1. VOIP & Birleşik İletişim (UC)
+SIP/RTP protokolleri üzerinden yürütülen sesli iletişim sistemleri.
+- **SIP Enumeration**: Hedef santraldeki (PBX) kullanıcıları `svwar` ile tespit etme.
+- **RTP Injection**: Devam eden bir sesli görüşmeye sahte ses paketleri enjekte etme.
+- **Kayıt Çalma (Eavesdropping)**: Şifrelenmemiş SIP trafiğini dinleyerek görüşmeleri kaydetme.
+
+### 2. SD-WAN (Software-Defined WAN)
+Geleneksel router'lar yerine yazılım tabanlı yönetilen geniş alan ağları.
+- **Zafiyet**: Merkezi yönetim panelinin (Controller) ele geçirilmesi tüm ağın izolasyonunun bozulmasına neden olur.
+- **Güvenlik**: IPsec tünellerinin ve uç nokta (Edge) cihazlarının konfigürasyon bütünlüğü.
+
+### 3. Edge Security: CDN & WAF & DDoS
+İnternet ile kurum ağı arasındaki ilk savunma hattı.
+- **CDN (Content Delivery Network)**: Statik içeriği ön belleğe alarak ana sunucuyu (Origin) gizler.
+- **WAF (Web Application Firewall)**: L7 seviyesinde (HTTP) saldırıları (SQLi, XSS) bloklar.
+- **DDoS Mitigation**: Anycast ağları kullanarak trafik yükünü küresel ölçekte dağıtma ve temizleme.
+
+---
+
+## 🌐 Egemen Ağ Altyapısı ve Kriz İletişimi (Sovereign Mesh)
+
+Küresel internetin kesildiği veya sansürlendiği olağanüstü durumlarda, iletişimin devamlılığını sağlayan egemen yapılar.
+
+### 1. Egemen Mesh Network (LoRa & Meshtastic)
+İnternet altyapısına ihtiyaç duymadan, düşük enerji ve uzun menzilli radyo dalgaları üzerinden kurulan "halk ağı".
+- **LoRa (Long Range)**: Kilometrelerce uzaktan metin tabanlı veri aktarımı.
+- **Meshtastic**: Cihazların birbirini "router" olarak kullanarak ağı genişlettiği, merkezi olmayan (decentralized) iletişim protokolü.
+- **Kullanım**: Doğal afetler veya siber savaş anlarında koordinasyonun sürdürülmesi.
+
+### 2. Kritik Servislerin Millileştirilmesi (DNS & NTP)
+- **Sovereign DNS**: Dış dünyaya bağlı kalmadan çalışabilen yerel DNS root sunucuları. Alan adı çözümlemesinin küresel kesintilerden etkilenmemesi.
+- **Sovereign NTP**: Zaman senkronizasyonu için atomik saatlere dayalı yerel zaman sunucuları. (Finans ve kriptografi için kritik).
+
+### 3. Out-of-Band (OOB) Yönetimi
+Kritik cihazların (Switch, Firewall, Server) yönetim arayüzlerini, asıl veri trafiğinden tamamen izole edilmiş, fiziksel olarak ayrı bir ağ üzerinden yönetme disiplini.
+- **Güvenlik**: Bir saldırgan ağ trafiğini ele geçirse dahi, cihazların yönetim katmanına erişemez.
+
+---
+
 
 ### 🐍 Scapy (Python ile Paket Manipülasyonu)
 Kendi protokolünü yaz veya trafiği değiştir.

