@@ -92,6 +92,27 @@ Bir web sitesinden yüklenen betiğin, başka bir origin'deki (Farklı protokol,
 ### 3. Browser Sandboxing & Isolation
 Modern tarayıcılar (Chrome/Edge), her sekmeyi ayrı bir "Sandbox" içinde çalıştırır. Bir sekmedeki zafiyetin işletim sistemine sızmasını engellemek için düşük yetkili prosesler kullanılır.
 
+### 4. V8 Motoru ve JIT Sömürüsü (Advanced)
+Chrome'un JS motoru olan V8 üzerindeki bellek yönetim zafiyetleri.
+- **JIT (Just-In-Time)**: Dinamik olarak derlenen kodun, optimizasyon hataları (Type Confusion) sonucu bellek güvenliğini bozması.
+- **Sandbox Escape**: Renderer prosesindeki bir açıktan faydalanıp, tarayıcı sandbox'ından çıkarak işletim sistemi seviyesinde kod çalıştırma (ACE).
+- **Site Isolation**: Her origin (domain) için tamamen farklı işletim sistemi prosesi kullanılarak Spectre gibi yan kanal saldırılarının engellenmesi.
+
+---
+
+## 🔌 API & Mikroservis Güvenliği
+
+Modern uygulamaların birbirleriyle konuştuğu sinir sistemi.
+
+### 1. API Zafiyetleri (OWASP API Top 10)
+- **BOLA (Broken Object Level Authorization)**: Bir kullanıcının başka birine ait veriyi (örn: `/api/orders/555`) yetkisiz çekebilmesi.
+- **Mass Assignment**: Kayıt veya güncelleme sırasında gönderilen JSON verisine gizli alanlar (örn: `"is_admin": true`) ekleyerek yetki yükseltme.
+
+### 2. Mikroservis Mimarisi Güvenliği
+- **mTLS (Mutual TLS)**: Servislerin birbirine güvenmesi için her iki tarafın da sertifika ile kimlik doğrulaması yapması.
+- **GraphQL Injection**: Standart SQLi'dan farklı olarak, aşırı karmaşık sorgularla (Deep Nesting) sunucuyu DoS durumuna düşürme veya şema sızıntısı sağlama.
+- **API Gateway**: Tüm trafiği karşılayan merkezi noktada hız sınırlama (Rate Limiting) ve JWT (JSON Web Token) doğrulaması.
+
 ---
 
 ## 🏆 Bug Bounty Metodolojisi & İleri Keşif

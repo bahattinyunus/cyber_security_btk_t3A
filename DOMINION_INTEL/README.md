@@ -123,8 +123,23 @@ Düşman toplumun psikolojisini ve altyapısını bozmaya yönelik koordineli si
 - **Gray Zone Operations**: Savaş ilan edilmeden, "ret edilebilir" (deniable) şekilde yürütülen yıkıcı saldırılar.
 - **Influence Operations**: Sosyal medya algoritmalarını ve veri sızıntılarını kullanarak dezenformasyon yayma.
 
-### 3. Kritik Altyapı Hedefleme (Targeting CI)
-Enerji şebekeleri, finans sistemleri ve haberleşme uydularına yönelik "stratejik felç" (strategic paralysis) amaçlı operasyonlar.
+### 3. Stratejik Öngörü (Strategic Foresight)
+Gelecekteki siber tehditleri bugünden tahmin etme ve hazırlık yapma disiplini.
+- **Horizon Scanning**: Ufuk taraması yaparak, henüz olgunlaşmamış ama potansiyel olarak yıkıcı siber teknolojileri (örn: Biyosiber saldırılar, Kuantum deşifre) tespit etme.
+- **Scenario Planning**: "Yarın ulusal elektrik şebekesi çökerse ne olur?" gibi "Peki ya..." (What-if) senaryoları tasarlayarak kriz yönetimi kapasitesini test etme.
+- **National Strategy**: Siber güvenliği bir IT sorunu değil, ulusal beka ve egemenlik meselesi olarak kurgulama.
+
+### 4. Kritik Altyapı ve Jeopolitik Sabotaj
+Küresel veri akışını ve stratejik bağlantıları hedef alan fiziksel/mantıksal tehditler.
+- **Subsea Cable Security**: Okyanus altı internet kablolarına yönelik fiziksel sabotaj veya kablo iniş noktalarında (Landing Stations) veri trafiğinin mantıksal olarak manipüle edilmesi.
+- **Space-Ground Link Interruption**: Uzay tabanlı kritik internet takımlarına (Starlink, Kuiper vb.) yönelik yer istasyonu saldırıları veya yörüngeler arası lazer haberleşme kesintileri.
+- **Regional Internet Fragmentation (Splinternet)**: Ülkelerin küresel internetten koparak kendi izole ağlarını kurmalarının jeopolitik etkileri ve bu ağlar arası "stratejik geçitlerin" (Sovereign Gateways) güvenliği.
+
+### 5. Altyapı İstihbaratı (Infrastructure OSINT)
+İnternete açık varlıkların ve ulusal saldırı yüzeyinin haritalanması.
+- **Shodan & Censys**: IP bazlı değil, servis ve sertifika bazlı arama yaparak gizli altyapıları (Honeypotlar, endüstriyel paneller) tespit etme.
+- **BinaryEdge & ZoomEye**: Dünya genelindeki maruziyet verilerini (exposed leaks) ve zafiyetli servislerin coğrafi dağılımını analiz etme.
+- **ASN Haritalama**: Bir kuruma veya ülkeye ait tüm IP bloklarını (BGP duyuruları üzerinden) tespit ederek "geniş alan keşfi" yapma.
 
 ---
 
@@ -141,14 +156,34 @@ Arama motorlarını bir silah gibi kullanın. Bilgi toplamak için özel operat�
 | `intitle:` | Sayfa başlığında ara | `intitle:"index of /" parent directory` |
 | `ext:` | Uzantı ara | `ext:sql "INSERT INTO" "VALUES"` |
 
-### 🛠️ Çevrimiçi Araç Çantası
-Yerel iz bırakmadan bilgi toplamak için.
-
-- **Altyapı Analizi**:
-    - [Robtex](https://www.robtex.com/): DNS ve Grafik analiz.
-    - [SecurityTrails](https://securitytrails.com/): Geçmiş DNS kayıtları.
-    - [Censys](https://censys.io/): İnternet cihaz arama motoru.
 - **Tehdit İstihbaratı**:
+    - [VirusTotal](https://www.virustotal.com/): Dosya ve URL analizi.
+    - [Any.Run](https://any.run/): İnteraktif zararlı yazılım analizi.
+    - [MalwareTraffic](https://www.malware-traffic-analysis.net/): Gerçek saldırı trafikleri.
+
+---
+
+## 🕶️ Darknet İstihbaratı (DARKINT)
+
+Yüzey ağının (Surface Web) ötesindeki illegal ekosistemlerin takibi ve analizi.
+
+### 1. Güvenli Erişim ve Operasyonel Güvenlik (OPSEC)
+Darknet üzerinde kimlik ifşası olmadan araştırma yapma teknikleri.
+- **Tor Network & Bridges**: Standart Tor çıkış düğümlerinin (Exit Nodes) izlenmesine karşı köprü (Bridges) kullanımı.
+- **Tails OS**: Bellekte çalışan ve her kapatıldığında tüm izleri silen amnezi sistemi.
+- **Whonix**: İş istasyonu ve ağ geçidini (Gateway) izole ederek IP sızıntılarını önleme.
+
+### 2. İllegal Pazar Yeri (Marketplace) Analizi
+Kayıp verilerin, "0-day" açıklarının ve servis olarak siber suç (CaaS) ilanlarının takibi.
+- **Trend Takibi**: Yeni çıkan fidye yazılımı (Ransomware) gruplarının sızıntı siteleri (Leak Sites) üzerinden kurban analizi.
+- **Kripto Takibi**: Monero (XMR) gibi gizlilik odaklı paraların mikser (mixer) kullanımı ile aklanma süreçlerinin izlenmesi.
+
+### 3. PGP ve Güvenilir Haberleşme
+Saldırganlar ve muhbirler arası haberleşmenin doğrulanması.
+- **Impersonation Prevention**: Forumlardaki aktörlerin PGP imzalı mesajlarını doğrulayarak sahte profil (Imposter) tespiti.
+- **Canary Watch**: Servislerin veya aktörlerin baskına uğrayıp uğramadığını anlamak için kullanılan "Warrant Canary" takibi.
+
+---
     - [VirusTotal](https://www.virustotal.com/): Hash/Domain/IP tarama.
     - [Any.Run](https://app.any.run/): İnteraktif Malware Sandbox.
 - **Kişi/Kurum**:

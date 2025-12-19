@@ -61,22 +61,39 @@ Frekansların içine dalmak.
 
 ---
 
-## 📡 Kablosuz Cephesi: 5G & SDR & LoRaWAN
+## 📡 Kablosuz Cephesi: 5G & SDR & Signal Analysis
 
-Siber uzayın görünmez sinyalleri arasında yeni savaş alanları.
+Siber uzayın görünmez sinyalleri arasında yeni savaş alanları ve sinyal istihbaratı.
 
 ### 1. 5G & Hücresel Ağ Güvenliği
 - **IMSI Catching (Stingray)**: Mobil cihazları sahte bir baz istasyonuna bağlanmaya zorlayarak konum takibi ve SMS dinleme yapma.
-- **Network Slicing Security**: Farklı servisler için ayrılmış ağ dilimleri arasındaki izolasyonun bozulması riski.
+- **A5/1 & A5/3 Cracking**: 2G/3G şifreleme algoritmalarının kırılarak ses trafiğinin dinlenmesi metodolojileri.
 
 ### 2. SDR Deep Dive (Software Defined Radio)
-Uygun fiyatlı donanımlar (RTL-SDR, HackRF) ile tüm radio spektrumunu dinleme/yayınlama.
-- **GPS Spoofing**: Sahte GPS sinyalleri yayınlayarak drone veya gemilerin konumunu saptırma.
-- **Signal Replay**: Standart dışı frekanslarda (örn: 433MHz akıllı kumandalar) paket yakalayıp tekrar göndererek yetkisiz erişim sağlama.
+Uygun fiyatlı donanımlar (RTL-SDR, HackRF) ve açık kaynaklı yazılımlar (`GnuRadio`) ile tüm radio spektrumunu manipüle etme.
+- **Signal Analysis**: Ham radyo dalgalarını görselleştirerek (Waterfall) verinin modulasyon tipini (AM, FM, ASK, FSK) tespit etme.
+- **GSM Sniffing**: `Gr-gsm` ve `Kalibrate` kullanarak havada dolaşan şifresiz veya zayıf şifreli paketlerin yakalanması.
+- **Sinyal Kayıt (Replay)**: RF kumanda veya sensör sinyallerini capture edip, saniyeler sonra tekrar yayarak (Replay Attack) yetkisiz tetikleme yapma.
 
-### 3. LoRaWAN (Düşük Güçlü Geniş Alan Ağı)
-Kilometrelerce ötedeki IoT sensörlerinin kullandığı protokol.
+### 3. LoRaWAN & Düşük Güç Güvenliği
 - **Zafiyet**: Cihaz bazlı şifreleme anahtarlarının (AppKey) fabrikasyon/varsayılan olarak bırakılması.
+- **Müdahale**: `SDR` ile LoRa paketlerinin yakalanması ve tersine mühendislik ile çözülmesi.
+
+---
+
+## 🛰️ İleri Sinyal İstihbaratı (SIGINT) & Uydu
+
+Havanın ötesi, yörüngenin güvenliği.
+
+### 2. Sinyal Parmak İzi (RF Fingerprinting)
+Her radyo vericisinin, üretim hatalarından kaynaklanan benzersiz sinyal karakteristiğini tespit etme.
+- **Uygulama**: MAC adresi gizlense (spoofing) bile, cihazın yaydığı fiziksel sinyalden kimlik tespiti yapma.
+
+### 3. Otonom Sürü (Swarm) Güvenliği
+Drone ve otonom araç sürülerinin haberleşme ve koordinasyon güvenliği.
+- **MAVLink Security**: İHA'lar arası haberleşmede kullanılan MAVLink protokolünün şifresiz yapısından kaynaklanan komuta manipülasyonu (Command Hijacking) riskleri.
+- **Swarm Jamming / Spoofing**: Sürü içindeki koordinasyon sinyallerini karıştırarak sürü dağıtma veya sahte lider (Fake Leader) atama saldırıları.
+- **Anti-Swarm EW**: Sürülerin coğrafi sınırları (Geofence) ihlal etmesini önleyen aktif elektronik harp teknikleri.
 
 ---
 

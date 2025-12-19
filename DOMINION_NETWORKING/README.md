@@ -131,18 +131,34 @@ GUI olmadan trafik analizi.
 
 Ağlar geliştikçe, sadece veri değil ses ve vizyon da ağın bir parçası haline geldi.
 
-### 1. VOIP & Birleşik İletişim (UC)
-SIP/RTP protokolleri üzerinden yürütülen sesli iletişim sistemleri.
-- **SIP Enumeration**: Hedef santraldeki (PBX) kullanıcıları `svwar` ile tespit etme.
-- **RTP Injection**: Devam eden bir sesli görüşmeye sahte ses paketleri enjekte etme.
-- **Kayıt Çalma (Eavesdropping)**: Şifrelenmemiş SIP trafiğini dinleyerek görüşmeleri kaydetme.
+---
 
-### 2. SD-WAN (Software-Defined WAN)
+## 🤐 Gizli İletişim Kanalları (Covert Channels)
+
+Güvenlik duvarlarını ve izleme sistemlerini atlatarak veri sızdırma veya komuta kontrol (C2) trafiği yürütme teknikleri.
+
+### 1. Protokol Tünelleme (Protocol Tunneling)
+Meşru görünen trafiklerin içine başka protokollerin (örn: SSH, Shell) gömülmesi.
+- **DNS Tunneling**: Verinin DNS sorguları (`TXT` or `CNAME` records) içine gizlenerek dışarı sızdırılması. `iodine` veya `dnscat2` gibi araçlar kullanılır.
+- **ICMP Tunneling**: `Ping` paketlerinin veri (payload) alanına dosya veya komut gömerek IPS sistemlerini atlatma.
+
+### 2. Zamanlama ve Boyut Kanalları (Side-Channels)
+Paket içeriğine değil, paketlerin gönderilme karakteristiklerine dayalı gizli haberleşme.
+- **Timing Channels**: Paketler arası gecikme sürelerini (delay) kullanarak (örn: 100ms = 0, 200ms = 1) veri iletme.
+- **Size Modulation**: Paket boyutlarını değiştirerek (örn: 64 byte = A, 128 byte = B) bilgi sızdırma.
+
+---
 Geleneksel router'lar yerine yazılım tabanlı yönetilen geniş alan ağları.
 - **Zafiyet**: Merkezi yönetim panelinin (Controller) ele geçirilmesi tüm ağın izolasyonunun bozulmasına neden olur.
 - **Güvenlik**: IPsec tünellerinin ve uç nokta (Edge) cihazlarının konfigürasyon bütünlüğü.
 
-### 3. Edge Security: CDN & WAF & DDoS
+### 3. Kendi Kendini İyileştiren Ağlar (Self-Healing Networks)
+Yapay zeka ve eBPF teknolojilerini kullanarak ağ güvenliğini otonom hale getirme.
+- **eBPF-Based Enforcement**: Ağ trafiğini çekirdek (kernel) seviyesinde saniyeler içinde analiz edip, şüpheli paketleri sisteme girmeden engelleme.
+- **Automated Micro-Segmentation**: Bir ağ segmentinde saldırı tespit edildiğinde, AI'nın bu segmenti otonom olarak izole etmesi ve trafiği güvenli yollara yönlendirmesi.
+- **Zero-Trust Network Access (ZTNA)**: AI kullanarak her bağlantı isteğini, bağlam (context), zaman ve davranış analizi ile sürekli doğrulamak.
+
+---
 İnternet ile kurum ağı arasındaki ilk savunma hattı.
 - **CDN (Content Delivery Network)**: Statik içeriği ön belleğe alarak ana sunucuyu (Origin) gizler.
 - **WAF (Web Application Firewall)**: L7 seviyesinde (HTTP) saldırıları (SQLi, XSS) bloklar.
@@ -150,23 +166,19 @@ Geleneksel router'lar yerine yazılım tabanlı yönetilen geniş alan ağları.
 
 ---
 
-## 🌐 Egemen Ağ Altyapısı ve Kriz İletişimi (Sovereign Mesh)
+## ⚛️ Kuantum Güvenli Ağlar (Quantum-Safe Networking)
 
-Küresel internetin kesildiği veya sansürlendiği olağanüstü durumlarda, iletişimin devamlılığını sağlayan egemen yapılar.
+Klasik internetin bittiği, fizik kurallarıyla korunan iletişim çağının başladığı katman.
 
-### 1. Egemen Mesh Network (LoRa & Meshtastic)
-İnternet altyapısına ihtiyaç duymadan, düşük enerji ve uzun menzilli radyo dalgaları üzerinden kurulan "halk ağı".
-- **LoRa (Long Range)**: Kilometrelerce uzaktan metin tabanlı veri aktarımı.
-- **Meshtastic**: Cihazların birbirini "router" olarak kullanarak ağı genişlettiği, merkezi olmayan (decentralized) iletişim protokolü.
-- **Kullanım**: Doğal afetler veya siber savaş anlarında koordinasyonun sürdürülmesi.
+### 1. Kuantum Anahtar Dağıtımı (QKD) & BB84
+QKD, fotonların kuantum özelliklerini (polarizasyon) kullanarak anahtar değişimini sağlar.
+- **BB84 Protokolü**: İlk kuantum anahtar dağıtım protokolüdür. Fotonların 0, 45, 90 ve 135 derecelik açılarla gönderilip ölçülmesi esasına dayanır.
+- **Gözlemci Etkisi (Heisenberg)**: Bir saldırgan (Eve) kanalı dinlemeye çalıştığında, fotonların durumunu değiştirir (collapse). Bu bozulma, taraflar tarafından sistemdeki gürültü artışı olarak anında fark edilir.
+- **Uygulama**: Fiber optik kablolar veya uydular arası lazer linkleri üzerinden güvenli anahtar taşıma.
 
-### 2. Kritik Servislerin Millileştirilmesi (DNS & NTP)
-- **Sovereign DNS**: Dış dünyaya bağlı kalmadan çalışabilen yerel DNS root sunucuları. Alan adı çözümlemesinin küresel kesintilerden etkilenmemesi.
-- **Sovereign NTP**: Zaman senkronizasyonu için atomik saatlere dayalı yerel zaman sunucuları. (Finans ve kriptografi için kritik).
-
-### 3. Out-of-Band (OOB) Yönetimi
-Kritik cihazların (Switch, Firewall, Server) yönetim arayüzlerini, asıl veri trafiğinden tamamen izole edilmiş, fiziksel olarak ayrı bir ağ üzerinden yönetme disiplini.
-- **Güvenlik**: Bir saldırgan ağ trafiğini ele geçirse dahi, cihazların yönetim katmanına erişemez.
+### 2. Kuantum Güvenli İnternet Mimarisi
+- **Quantum Repeaters**: Kuantum sinyallerini (fotonları) klasik sinyaller gibi güçlendirmeden (çünkü ölçüm veriyi bozar), dolanıklık (entanglement) yoluyla uzun mesafelere taşıyan cihazlar.
+- **Future-Proofing**: Ağ omurgasının (Backbone) kuantum-safe donanımlar ve PQC algoritmalarıyla hibrit olarak tasarlanması.
 
 ---
 

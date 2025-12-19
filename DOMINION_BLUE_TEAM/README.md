@@ -176,11 +176,13 @@ Saldırganın içeri girmesi için tasarlanmış "zafiyetli gibi görünen" saht
 
 ### 2. Honeytokens & Canary Tokens
 Görünürde değerli olan ama aslında birer "alarm" olan sahte veriler.
-- **Örnek**: Bir Excel dosyası açıldığında veya bir veritabanı tablosuna erişildiğinde sessizce SOC ekibine IP adresi ve konum bilgisi gönderir.
-- **Kullanım**: `Canarytokens.org` üzerinden hızlıca "tetikleyici" dosyalar üretilebilir.
+- **Canarytokens**: Bir dosya açıldığında, bir DNS sorgusu yapıldığında veya bir veritabanı tablosuna erişildiğinde sessizce SOC ekibine alert gönderen dijital mayınlar.
+- **Senaryo**: `Sifreler.docx` adında bir dosyaya Word Canarytoken yerleştirip dosya sunucusuna bırakmak. Saldırgan dosyayı açtığı anda IP adresi deşifre olur.
+- **Kullanım**: `sentinel_deception.py` veya `canarytokens.org` üzerinden hızlıca tetikleyici üretilebilir.
 
-### 3. Tarpits (Zift Kuyuları)
-Saldırganın tarama veya brute-force araçlarını yavaşlatmak için ağ seviyesinde yanıt süresini yapay olarak uzatma tekniği.
+### 3. Aktif Aldatma Taktikleri (Active Deception)
+- **Sahte Kimlik Bilgileri (Honey Credentials)**: Bellekte (LSASS) veya config dosyalarında saklanan sahte parola/hash bilgileri. Saldırgan bunları kullanmaya çalıştığında alarm tetiklenir.
+- **Decoy Files**: Fidye yazılımlarını tespit etmek için dosya sunucularına yerleştirilen, izlenmesi (audit) açık "yem" dosyalar.
 
 ---
 
@@ -216,10 +218,26 @@ Azure Sentinel ve Microsoft Defender üzerinde kullanılan güçlü sorgulama di
   | where Count > 50      // Kısa sürede çok sayıda farklı login
   ```
 
-### 2. Bellek Adli Bilişimi Derin Dalış (Memory Deep Dive)
-Bellekteki ham veriden işletim sistemi yapılarını çekme.
-- **Pool Scanning**: Bellekte gizlenmiş (linked list'ten çıkarılmış) prosesleri bulmak için `volatility` ile bellek alanlarını tarama.
-- **VAD (Virtual Address Descriptor)**: Bir prosesin bellek haritasını çıkararak enjekte edilmiş kodları (örn: `rwx` yetkili alanlar) tespit etme.
+---
+
+## 🧠 Bellek Adli Bilişimi (Memory Forensics)
+
+Sistem kapatıldığında kaybolacak olan canlı verilerin (RAM) analizi.
+
+### 1. Bellek Dökümü Alma (Acquisition)
+Canlı bir sistemden RAM kopyası almak için kullanılan teknikler.
+- **Araçlar**: `DumpIt`, `FTK Imager` veya hibernasyon dosyasının (`hiberfil.sys`) analizi.
+- **Anti-Forensics Tespiti**: Bellek dökümü alınırken kendisini silen veya sistemi çökerten zararlı yazılımlara karşı önlemler.
+
+### 2. Volatility Framework ile Analiz
+Dünya standartlarındaki bellek analizi aracı ile RAM üzerinde arkeolojik kazı yapmak.
+- **Pslist vs Psxview**: Gizlenmiş prosesleri (EPROCESS yapısından koparılanlar) tespit etme.
+- **Malfind**: Bellekteki enjekte edilmiş kodları (MZ header, shellcode) otomatik tarama.
+- **LdrModules**: `.dll` gizleme tekniklerini (InLoadOrderModuleList manipülasyonu) açığa çıkarma.
+
+### 3. RAM Üzerinden Veri Kurtarma (Data Carving)
+- **Şifreleme Anahtarları**: AES or BitLocker anahtarlarını bellekten çekme.
+- **Ağ Bağlantıları**: `netscan` eklentisi ile sistem kapansa bile o an açık olan veya kapanmış soket bilgilerini görme.
 
 ---
 
@@ -237,8 +255,11 @@ Binlerce anlamsız alarm arasından gerçeği bulma stratejisi.
 - **False Positive Reduction**: Sürekli tetiklenen ama zararsız olan (örn: IT ekibinin yedekleme scriptleri) işlemleri istisna (exclusion) listesine alma.
 - **Precision vs Recall**: Çok hassas olup her şeyi yakalamak mı (çok gürültü), yoksa sadece kesin saldırıları yakalamak mı (riskli)?
 
-### 3. Davranışsal Analiz (Anomali Tespiti)
-- **LOLBAS Monitor**: Meşru Windows araçlarının (`certutil`, `bitsadmin`) alışılmadık parametrelerle veya alışılmadık dizinlerden çalıştırılmasını izleme.
+### 3. AI Destekli Tehdit Avcılığı (AI-Enhanced Hunting)
+Geleneksel kuralların yetersiz kaldığı durumlarda makine öğrenmesi modellerini kullanma.
+- **UEBA (User and Entity Behavior Analytics)**: Bir kullanıcının veya cihazın "normal" davranış profilini çıkarıp, bu profilin dışına çıkan (örn: alışılmadık saatte devasa veri transferi) anomalileri tespit etme.
+- **Low & Slow Exfiltration Detection**: Aylar süren ve çok küçük parçalarla yapılan veri sızıntılarını, istatistiksel sapmaları analiz ederek yakalama.
+- **Automated Root Cause Analysis**: AI kullanarak binlerce alarmın kök nedenini saniyeler içinde bulma ve benzer olayları gruplandırma.
 
 ---
 

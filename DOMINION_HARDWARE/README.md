@@ -101,8 +101,40 @@ Endüstriyel ağların güvenliğini sağlamak için kullanılan standart hiyera
 - **Level 3.5 (IDMZ)**: IT ve OT dünyasını ayıran en kritik güvenlik katmanı (Industrial DMZ).
 
 ### 3. PLC Güvenliği & Saldırı Vektörleri
-- **Logic Manipulation**: PLC'ye giden kontro kodunu değiştirerek fiziksel hasar verme (Stuxnet örneği).
-- **Firmware Hijacking**: PLC firmware'ine arka kapı (backdoor) yerleştirme.
+- **Logic Manipulation**: PLC'ye giden kontrol kodunu (Ladder Logic/SCL) değiştirerek fiziksel süreci manipüle etme (Stuxnet örneği).
+- **Network Discovery**: `nmap --script s7-info -p 102 <IP>` ile Siemens PLC versiyon ve CPU bilgisini toplama.
+
+---
+
+## 🧠 BCI ve İleri Biyometrik Güvenlik
+
+Biyolojik ve dijital dünyanın kesişimindeki siber riskler.
+
+### 1. BCI (Beyin-Bilgisayar Arayüzü) Güvenliği
+Beyin sinyallerini (EEG/nIR) okuyan cihazların siber güvenliği.
+- **Brainjacking**: Nöral cihazların manipüle edilerek kullanıcıya zarar verilmesi veya zihinsel verilerin çalınması riski.
+- **Signal Privacy**: Beyin dalgalarından kişinin tercihlerini, duygularını veya PIN kodlarını tahmin etme denemeleri.
+
+### 2. İleri Biyometrik Atlatma (Biometric Spoofing)
+- **Pulse Detection Bypass**: Parmak izi veya damar içi (vein scan) okuyucuların sahte ve canlı olmayan materyallerle kandırılması.
+- **3D Face Masking**: Derinlik algılayan yüz tanıma sistemlerini, 3D maskeler ve kızılötesi ışık manipülasyonu ile atlatma.
+
+### 3. Bio-Hacking & DNA Güvenliği
+Biyolojik veri depolama ve sentetik biyoloji sistemlerine yönelik siber tehditler.
+- **Synthetic DNA Malware**: Sentetik DNA sarmalları içine kodlanmış zararlı yazılımlar. DNA sekanslama cihazları bu veriyi işlerken tampon bellek taşması (buffer overflow) tetiklenebilir.
+- **Laboratory Automation (Bio-ISAC)**: Genetik düzenleme ve ilaç üretim tesislerindeki laboratuvar robotlarının ve otomasyon yazılımlarının siber sabotaj riskleri.
+- **DNA Data Storage Privacy**: DNA üzerinde saklanan devasa verilerin şifrelenmesi ve genetik gizliliğin biyoinformatik tekniklerle korunması.
+
+---
+- **Exploitation Methodology**:
+    1. **Recon**: Protokol tespiti (Modbus:502, S7:102, Ethernet/IP:44818).
+    2. **Analysis**: Sistemin "Stop" veya "Run" moduna alınabilirliğinin testi.
+    3. **Injection**: Sahte sensör verileri göndererek (Spoofing) operatör panelini (HMI) yanıltma.
+    4. **Persistence**: PLC firmware'ine arka kapı (backdoor) yerleştirerek kalıcılık sağlama.
+
+### 4. Endüstriyel Bal Arıları (Industrial Honeypots)
+Kritik altyapılara sızmaya çalışan saldırganları tespit etmek için sahte PLC ve SCADA arayüzleri kurma.
+- **Conpot**: Gerçek zamanlı olarak Modbus, S7 ve BACnet servislerini simüle eden düşük etkileşimli endüstriyel bal kutusu.
 
 ---
 

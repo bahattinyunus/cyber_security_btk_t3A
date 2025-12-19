@@ -93,12 +93,43 @@ Siber güvenlik sadece ekranda bitmez.
 
 ---
 
-## 🎭 Pretexting (Senaryo Yazımı)
+## 🧠 Bilişsel Harp ve Etki Operasyonları (Cognitive Warfare)
 
-İnandırıcı bir yalan, gerçeğin detaylarına sahiptir.
+Zihin artık sadece bir hedef değil, bir savaş alanıdır.
 
-- **Senaryo**: "IT Departmanından arıyorum." (Zayıf)
-- **Güçlü Senaryo**: "Merhaba Ahmet Bey, 3. kattaki yazıcı güncellemesi takıldı, ekranınızda 404 hatası görüyor musunuz? Hızlıca düzeltmem lazım yoksa tüm katın interneti kesilecek." (Güçlü: İsim + Konum + Aciliyet + Teknik Detay)
+### 1. AI Destekli Dezenformasyon
+Yapay zeka modellerini (LLM) kullanarak devasa ölçekte bot narratives (anlatı) oluşturma.
+- **Sentetik Metinler**: İnsan elinden çıkmış gibi görünen, ikna edici ve kutuplaştırıcı içeriklerin saniyeler içinde binlerce hesaptan yayılması.
+- **Deepfake Narratives**: Ses ve video taklitleri (Deepfake) ile kriz anlarında sahte otorite beyanları oluşturma.
+
+### 2. Generative AI Phishing & Vishing
+- **Hyper-Personalized Phishing**: LLM'ler kullanarak hedefin sosyal medya ve geçmiş yazışma dilini taklit eden, hatasız ve ikna edici oltalama e-postaları oluşturma.
+- **AI-Enhanced Vishing**: Derin sahtecilik (Deepfake Audio) teknolojisi ile gerçek kişilerin (örn: şirket CEO'su veya aile üyesi) sesini taklit ederek telefon üzerinden dolandırıcılık veya yetkisiz işlem yaptırma.
+- **Automated Social Engineering**: Binlerce hedefe aynı anda, her birine özel senaryolarla saldıran otonom sosyal mühendislik botları.
+### 2. Anlatı Analizi & CIB Tespiti
+Sosyal ağlardaki "Koordineli Otantik Olmayan Davranışları" (CIB) teknik olarak analiz etme.
+- **Pattern Recognition**: Farklı hesapların aynı anda, benzer metinlerle veya belirli bir "merkezi kaynaktan" beslenerek yaptığı paylaşımların tespiti.
+
+### 3. Bilişsel Dayanıklılık (Resilience)
+- **Mental Sandbox**: Gelen bilginin duygusal tepki vermeden önce rasyonel olarak sorgulandığı, siber güvenlik bilinciyle birleşmiş bir zihin yapısı.
+- **Tehdit Analizi**: Algı yönetimi operasyonlarını önceden sezme ve kurumsal/ulusal seviyede "karşı-anlatı" geliştirme.
+
+---
+
+## 🧠 Subliminal Güvenlik ve Psikolojik Hazırlama (Priming)
+
+Saldırıdan önce zihnin savunma mekanizmalarını zayıflatma teknikleri.
+
+### 1. Psikolojik Hazırlama (Priming)
+Helefe yönelik saldırıdan günler veya haftalar önce, güven oluşturacak küçük etkileşimlerle (örn: sahte anketler, ilgi çekici sosyal medya paylaşımları) zihnin savunma duvarlarını indirme.
+- **Micro-Influencing**: Hedefin dijital çevresine, saldırı anındaki talebi normalleştirecek bilgiler sızdırma.
+
+### 2. Subliminal Etki ve UI/UX Manipülasyonu
+Arayüzlerdeki renk, ikonografi ve metin dizilimleri ile kullanıcıyı riskli kararlara (örn: "Kabul Et" butonunun daha çekici kılınması) itme.
+- **Dark Patterns**: Kullanıcıyı farkında olmadan veri paylaşımına veya yetki onayına zorlayan etik dışı tasarım örüntüleri.
+
+### 3. Bilişsel Yük Saldırıları (Cognitive Load)
+Kritik anlarda hedefi bilgi bombardımanına tutarak, mantıklı karar verme yetisini felç etme ve hata yapmasını sağlama.
 
 ---
 

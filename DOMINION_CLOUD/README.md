@@ -88,20 +88,21 @@ aws iam create-access-key --user-name backup_admin
 
 ## ☁️ Bulut-Yerli (Cloud-Native) Güvenlik Mimarisi
 
-Dinamik bulut ortamlarında güvenlik, sabit duvarlar yerine sürekli izleme ve kimlik üzerine kurulur.
+Dinamik bulut ortamlarında güvenlik, sabit duvarlar yerine sürekli izleme ve runtime koruması üzerine kurulur.
 
-### 1. CNAPP & CWPP: Uygulama Koruması
-- **CWPP (Cloud Workload Protection Platform)**: Container, VM ve Serverless fonksiyonlarının çalışma anındaki (runtime) güvenliğine odaklanır.
-- **CNAPP (Cloud-Native Application Protection Platform)**: Geliştirme aşamasından (Artifact tarama) çalışma anına kadar olan tüm süreci birleştiren modern yaklaşım.
+### 1. Runtime Security & eBPF
+Uygulamalar çalışırken çekirdek (kernel) seviyesinde izleme yaparak anomali tespiti.
+- **Cilium/Tetragon**: Container'lar içindeki şüpheli sistem çağrılarını (örn: `setns` ile namespace değiştirme) anında durdurma.
+- **Falco**: "Kritik bir dosyaya container içinden erişildi" gibi durumlar için gerçek zamanlı uyarılar üretme.
 
-### 2. Identity-First Security (Kimlik Odaklı Güvenlik)
+### 2. Admission Controllers (K8s Giriş Denetimi)
+Bir kaynağın Kubernetes kümesine dahil edilmeden önce politikalarla denetlenmesi.
+- **OPA Gatekeeper**: "Sadece belirli bir registry'den gelen imajlar çalıştırılabilir" kuralını zorlama.
+- **Kyverno**: YAML dosyalarındaki güvenlik açıklarını (örn: root yetkisi isteme) otomatik olarak düzeltme veya engelleme.
+
+### 3. Identity-First Architecture (IAM)
 Bulutta IP adresleri geçicidir, kimlikler (IAM) kalıcıdır.
-- **Kural**: "Her istek, kimliği doğrulanmış ve yetkisi kontrol edilmiş bir varlıktan gelmelidir."
-- **Zafiyet**: IAM Rollerinin zincirlenmesi (Role Chaining) yoluyla yetki yükseltme.
-
-### 3. Hibrit ve Çoklu Bulut Yönetimi
-Verinin bir kısmı AWS'de, bir kısmı Azure'da, bir kısmı ise kendi sunucunuzda (On-prem) ise:
-- **Merkezi Görünürlük**: Tüm bulut sağlayıcılardan gelen logların tek bir SIEM/SOAR platformuna çekilmesi.
+- **Workload Identity**: Container'ların uzun ömürlü key'ler yerine, geçici ve kısıtlı bulut kimlikleri (IAM Roles) kullanması.
 
 ---
 

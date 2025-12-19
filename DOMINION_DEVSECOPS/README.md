@@ -51,9 +51,16 @@ Kodun kendisi kadar, onu oluşturan kütüphaneler ve süreçler de güvenli olm
 Uygulamanın içindeki tüm "malzemelerin" (kütüphaneler, bağımlılıklar) listesi.
 - **Neden?**: `Log4j` gibi bir açık çıktığında, hangi uygulamalarınızın etkilendiğini anında bulmak için.
 - **Araç**: `Syft`, `CycloneDX`.
+- **İmzalama**: SBOM'un kendisinin de `cosign` ile imzalanarak bütünlüğünün korunması.
 
-### 2. SLSA (Supply-chain Levels for Software Artifacts)
-Yazılımın derlenme (build) sürecinin kurcalanmadığını kanıtlayan uçtan uca güvenlik çerçevesi.
+### 2. SLSA & Artifact Integrity
+Derlenme sürecinin kurcalanmadığını kanıtlayan çerçeve.
+- **Sigstore/Cosign**: Container imajlarını ve binary dosyaları dijital olarak imzalayarak, sadece güvenli kaynaktan gelen kodun çalışmasını garanti altına alma.
+- **Attestations**: Derleme (build) sırasında oluşturulan, "bu kod şu tarihte, şu pipeline'da derlendi" diyen kanıt dosyaları.
+
+### 3. Tedarik Zinciri Saldırıları (Dependency Confusion)
+Dahili paket isimlerini (örn: `acme-internal-util`) genel paket yöneticilerinde (npm/pypi) aynı isimle yayınlayarak, sistemin sahte/zararlı paketi indirmesini sağlama tekniği.
+- **Savunma**: Scoped paket kullanımı ve private registry önceliklendirme.
 
 ---
 

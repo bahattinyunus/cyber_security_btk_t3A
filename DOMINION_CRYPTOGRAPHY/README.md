@@ -124,33 +124,48 @@ Kuantum sonrası algoritmaların (`Kyber`, `Dilithium`) mevcut sistemlere entegr
 
 ---
 
-## 🔬 Gelecek: Post-Quantum Cryptography (PQC)
+### 1. Kuantum Tehdidinin Mekaniği (Quantum Mechanics of Attacks)
+Klasik kriptografiyi bitirecek olan iki ana algoritma:
+- **Shor'un Algoritması**: Büyük sayıların asal çarpanlarına ayrılması (Integer Factorization) ve Ayrık Logaritma (Discrete Logarithm) problemlerini polinom zamanda çözer. Bu, günümüzde interneti ayakta tutan **RSA**, **Diffie-Hellman** ve **ECC** (Eliptik Eğri) sistemlerinin anında kırılması demektir.
+- **Grover'ın Algoritması**: Yapılandırılmamış veri setlerinde aramayı hızlandırır. Simetrik şifreleme anahtarlarının (AES) "brute-force" süresini karekök oranında azaltır.
+  - *Sonuç*: AES-128 artık güvenli değildir (AES-64 seviyesine iner). Kuantum direnci için **AES-256** standart hale gelmelidir (Anahtar boyutu iki katına çıkarılmalıdır).
 
-Kuantum bilgisayarlar geldiğinde, mevcut RSA ve ECC algoritmaları dakikalar içinde kırılabilecek.
-- **Lattice-based Cryptography**: Kuantum saldırılarına dirençli matematiksel kafes yapıları.
-- **NIST Seçimleri**: CRYSTALS-Kyber (Şifreleme) ve CRYSTALS-Dilithium (İmza) yakın geleceğin standartlarıdır.
+### 2. CRYSTALS-Kyber (Anahtar Kapsülleme - KEM)
+Kyber, güvenli anahtar değişimi için tasarlanmış bir Lattice-based algoritmadır.
+- **Matematiksel Temel**: Learning With Errors (LWE) probleminin bir varyasyonu olan Module-LWE üzerine kuruludur.
+- **Kullanım**: TLS handshake sırasında simetrik anahtarların (AES) güvenli bir şekilde paylaşılmasını sağlar.
+- **Parametreler**: Kyber-512 (AES-128 güvenliği), Kyber-768 (AES-192), Kyber-1024 (AES-256).
+
+### 2. CRYSTALS-Dilithium (Dijital İmzalar)
+Dijital kimlik doğrulaması ve yazılım imzalama için seçilen ana post-kuantum algoritmasıdır.
+- **Mekanizma**: Fiat-Shamir with Aborts tekniğini kullanır.
+- **Karakteristik**: İmza boyutları klasik algoritmalara (RSA/ECDSA) göre çok daha büyüktür (Dilithium-2 için ~2.4KB).
+- **Entegrasyon**: Ağ paketlerinin MTU limitlerini zorlayabileceği için protokol seviyesinde (örn: IKEv2, TLS 1.3) parçalı paketleme (fragmentation) desteği gerektirir.
+
+### 3. Kuantum Göçü ve Hibrit Mimari (Hybrid Design)
+"Harvest Now, Decrypt Later" (HNDL) riskine karşı önerilen geçiş mimarisi.
+- **Yapı**: Klasik bir algoritma (örn: ECDH) ve kuantum sonrası bir algoritma (örn: Kyber) seri olarak bağlanır. Bir taraf kırılsa bile diğeri veriyi korur.
+- **Kripto-Çeviklik (Crypto-Agility)**: Uygulamanın, yazılım kodunu değiştirmeden konfigürasyon üzerinden yeni algoritmalara geçebilme yeteneği.
+
+## 🤐 Sıfır Bilgi Kanıtları (Zero-Knowledge Proofs - ZKP)
+
+Bir tarafın (kanıtlayıcı), bir bilginin içeriğini açıklamadan, o bilgiye sahip olduğunu karşı tarafa (doğrulayıcı) ispatlamasını sağlayan kriptografik protokoller.
+
+### 1. zk-SNARKs (Zero-Knowledge Succinct Non-Interactive Argument of Knowledge)
+En yaygın ZKP türüdür. Kanıtlar küçüktür ve doğrulanması çok hızlıdır.
+- **Trusted Setup**: Sistemin başlaması için "güvenilir bir kurulum" gerektirir (CRS - Common Reference String).
+- **Kullanım**: Gizlilik odaklı kripto paralar (Zcash) ve kimlik doğrulamasında parolanın kendisini göndermeden parola sahipliğini kanıtlama.
+
+### 2. zk-STARKs (Zero-Knowledge Scalable Transparent Argument of Knowledge)
+SNARKs'ın daha ölçeklenebilir ve güvenilir kurulum gerektirmeyen versiyonudur.
+- **Şeffaflık**: Güvenilir kurulum (trusted setup) gerektirmez, bu da merkeziyetsizliği artırır.
+- **Kuantum Direnci**: Kuantum bilgisayarlara karşı dayanıklı olduğu düşünülmektedir.
+
+### 3. Uygulama Alanları
+- **Gizli Kimlik Yönetimi**: Yaşınızı kanıtlamak için doğum tarihinizi paylaşmadan sadece "18 yaşından büyük" olduğunuzun kanıtını sunmak.
+- **Veri Güvenliği**: Hassas verileri bulut üzerinde, verinin kendisini bulut sağlayıcısına göstermeden işlemek.
 
 ---
-
-## ⚛️ Kuantum Ötesi Direnç (Quantum Resilience)
-
-Geleceği bugünden korumak için kuantum bilgisayarların kırma kapasitesine karşı geliştirilen stratejiler.
-
-### 1. Harvest Now, Decrypt Later (HNDL) Tehlikesi
-Saldırganların (genellikle devlet aktörleri), bugün kıramadıkları yüksek değerli şifreli verileri "hasat edip" (kaydedip), 10-15 yıl sonra kuantum bilgisayarlar geliştiğinde çözmek üzere saklaması.
-- **Savunma**: Verinin ömrü 10 yıldan fazlaysa, bugünden **PQC (Post-Quantum Cryptography)** ile şifrelenmelidir.
-
-### 2. CRYSTALS-Kyber & Dilithium Uygulanışı
-NIST tarafından seçilen ana algoritmaların teknik uygulama örüntüleri:
-- **Kyber (KEM)**: Güvenli anahtar kapsülleme mekanizması. Lattice-based (Kafes tabanlı) matematik kullanarak anahtar değişimini sağlar.
-- **Dilithium**: Dijital imzalar için kullanılır. Mevcut RSA/ECDSA imzalarına göre çok daha büyük imza boyutlarına sahiptir, bu da ağ protokollerinde (TLS gibi) paket boyutu ayarlamaları gerektirir.
-
-### 3. Kripto-Çeviklik (Crypto-Agility)
-Yazılım altyapısının, tek bir hard-coded algoritma yerine, algoritmaları çalışma anında güncelleyebilecek (agility) mimari ile tasarlanması.
-
----
-
-
 ## 🖼️ Steganography (Veri Gizleme)
 
 Veriyi şifrelemek dikkat çeker. Veriyi *gizlemek* ise sanattır.
